@@ -1,33 +1,23 @@
-rb-pid-controller
+pid_controller
 ==========
 
 Description
 --------------------------------
 
-This is a simple PID controller writen in ruby
+This is a simple PID controller writen in Ruby.
 
-Installation
---------------------------------
-
-      sudo gem install rb-pid-controller
-      
 Usage
 --------------------------------
 
-      require "rubygems"
-      require "rb-pid-controller"
-      
-      Kp = 1 # Proportional gain
-      Ki = 1 # Integrative gain
-      Kd = 1 # Derivative gain
-      
-      # pid controller creation
-      pid = PIDController::PID.new(Kp,Ki,Kd)
-      
-      # set the consign
-      pid.set_consign(10)
-      
-      # push a value to the controller and get the command
-      command = pid << 11
+      require 'pid_controller'
 
-      
+      kp = 1  # Proportional gain
+      ki = 1  # Integral gain
+      kd = 1  # Derivative gain
+      set_point = 10
+
+      # create pid controller
+      pid = PIDController.new(set_point, kp, ki, kd)
+
+      # push process variable to the controller and get control value
+      control = pid << 11
