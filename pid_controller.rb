@@ -16,16 +16,31 @@
 # end
 
 class PIDController
-  attr_accessor :history_length
-  attr_reader :kp, :ki, :kd, :set_point
+  attr_reader :history_length, :kp, :ki, :kd, :set_point
 
   def initialize(set_point, kp = 1.0, ki = 1.0, kd = 1.0, history_length = nil)
-    @set_point = set_point
-    @history_length = history_length
-    @kp = kp.to_f
-    @ki = ki.to_f
-    @kd = kd.to_f
+    self.set_point = set_point
+    self.history_length = history_length
+    self.kp = kp
+    self.ki = ki
+    self.kd = kd
     reset!
+  end
+
+  def history_length=(len)
+    if len
+      @history_length = Integer(len)
+      raise(ArgumentError, "invalid value for history_length: #{len.inspect}") if @history_length < 0
+      if @history
+        n = @history.length - @history_length
+        @history.shift(n) if n > 0
+      else
+        @history = []
+      end
+    else
+      @history_length = nil
+      @history = nil
+    end
   end
 
   def kp=(kp)
