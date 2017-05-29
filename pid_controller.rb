@@ -76,11 +76,13 @@ class PIDController
 
   private
 
+  # returns a pair: +[error_value, dt]+
   def error(process_variable)
     e = process_variable - @set_point
-    now = Time.now.to_i
+    now = Time.now
     if @last_time
-      dt = (now - @last_time).to_f
+      dt = now - @last_time
+      dt = Float::MIN if dt == 0
     else
       dt = 1.0
     end
